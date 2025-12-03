@@ -1,0 +1,27 @@
+services:
+  app:
+    image: 'campus-coffee:latest'
+    build:
+      context: .
+    container_name: campus-coffee-app-dev
+    networks:
+      - campus-coffee-net
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_PROFILES_ACTIVE=dev
+
+  db:
+    image: 'postgres:16-alpine'
+    container_name: db
+    networks:
+      - campus-coffee-net
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+networks:
+  campus-coffee-net:
